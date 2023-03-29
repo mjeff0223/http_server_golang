@@ -1,0 +1,1 @@
+This is a simple web server with a database written in Go
