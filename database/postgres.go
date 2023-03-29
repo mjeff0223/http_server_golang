@@ -53,3 +53,48 @@ func NewPostgreSQLClient() {
 
 	db.AutoMigrate(Anime{})
 }
+
+func CreateAnime(a *Anime) (*Anime, error) {
+	res := db.Create(a)
+	if res.RowsAffected == 0 {
+		return &Anime{}, errors.New("anime not created")
+	}
+	return a, nil
+}
+
+func ReadAnime(id string) (*Anime, error) {
+	var anime Anime
+	res := db.First(&anime, id)
+	if res.RowsAffected == 0 {
+		return nil, errors.New("anime not found")
+	}
+	return &anime, nil
+}
+
+func ReadAnimes() ([]*Anime, error) {
+	var animes []*Anime
+	res := db.Find(&animes)
+	if res.Error != nil {
+		return nil, errors.New("animes not found")
+	}
+	return animes, nil
+}
+
+func UpdateAnime(anime *Anime) (*Anime, error) {
+	var updateAnime Anime
+	result := db.Model(&updateAnime).Where(anime.ID).Updates(anime)
+	if result.RowsAffected == 0 {
+		return &Anime{}, errors.New("anime not updated")
+	}
+	return &updateAnime, nil
+
+}
+
+func DeleteAnime(id string) error {
+	var deleteAnime Anime
+	result := db.Where(id).Delete(&deleteAnime)
+	if result.RowsAffected == 0 {
+		return errors.New("anime data not deleted")
+	}
+	return nil
+}
