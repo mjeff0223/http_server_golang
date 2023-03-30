@@ -7,7 +7,8 @@ import (
 	"os"
 
 	"github.com/jinzhu/gorm"
-	"github.com/jinzhu/gorm/dialects/postgres"
+	
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/joho/godotenv"
 )
 
@@ -15,14 +16,15 @@ var db *gorm.DB
 var err error
 
 type Anime struct {
-	ID			uint 	`json: "id" gorm:"primary_key`
+	ID			uint 	`json: "id" gorm:"primary_key"`
 	Title		string 	`json: "title"`
-	Description string 	`json: "description`
-	Rate 		int 	`json: rate`
+	Description string 	`json: "description"`
+	Rate 		int 	`json: "rate"`
+	Genre       string  `json: "genre"`
 }
 
 func getEnvVariable(key string) string {
-	err := godotenv.Load("env")
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatal("Error loading .env file", err)
 	}
