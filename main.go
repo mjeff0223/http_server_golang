@@ -1,20 +1,20 @@
 package main
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	
+	api "example.com/go_server/api"
+	"example.com/go_server/database"
 )
 
+func init() {
+	database.NewPostgreSQLClient()
+}
 
 
 func main() {
-	r := gin.Default()
+	r := api.SetupRouter()
 
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H {"hello": "world"})
-	})
-	r.Run()
+	r.Run(":8080")
 }	
 
 
